@@ -23,6 +23,9 @@ _start:
     # Set up the stack
     mov $stackTop, %esp
 
+    mov ax, 19 ; Graphics mode
+    int 16
+
     call main
 
     cli
