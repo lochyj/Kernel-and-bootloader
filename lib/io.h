@@ -45,6 +45,11 @@ void printLn(char *str) {
   newLn();
 }
 
+void rmChar() {
+  vga_index--;
+  vga_buffer[vga_index] = vga_driver(' ', VGA_TEXT, VGA_BACK);
+}
+
 void clear() {
   vga_index = 0;
   clear_vga_buffer(&vga_buffer, VGA_TEXT, VGA_BACK);

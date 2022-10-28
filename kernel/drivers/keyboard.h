@@ -7,6 +7,7 @@ typedef unsigned int uint32;
 
 #define KEYBOARD_PORT 0x60
 
+// update for qwerty us
 
 #define KEY_A 0x1E
 #define KEY_B 0x30
@@ -129,25 +130,59 @@ void sleep(uint32 timer_count) {
   wait_for_io(timer_count);
 }
 
-//TODO: Fix this for qwerty US keyboard
+//TODO: Update this
 
-char get_ascii_char(char keycode) {
-  char ascii_char = 0;
-  if(keycode >= 0x02 && keycode <= 0x0B)
-    ascii_char = digit_ascii_codes[keycode - 0x02];
-  else if(keycode >= 0x10 && keycode <= 0x19)
-    ascii_char = keycode;
-  else if(keycode >= 0x1E && keycode <= 0x26)
-    ascii_char = keycode + 0x20;
-  else if(keycode >= 0x2C && keycode <= 0x32)
-    ascii_char = keycode + 0x20;
-  else if(keycode >= 0x33 && keycode <= 0x34)
-    ascii_char = keycode + 0x20;
-  else if(keycode == 0x35)
-    ascii_char = 0x2F;
-  else if(keycode == 0x39)
-    ascii_char = 0x20;
-  return ascii_char;
+char get_ascii_char(uint8 key_code) {
+  switch(key_code) {
+    case KEY_A : return 'A';
+    case KEY_B : return 'B';
+    case KEY_C : return 'C';
+    case KEY_D : return 'D';
+    case KEY_E : return 'E';
+    case KEY_F : return 'F';
+    case KEY_G : return 'G';
+    case KEY_H : return 'H';
+    case KEY_I : return 'I';
+    case KEY_J : return 'J';
+    case KEY_K : return 'K';
+    case KEY_L : return 'L';
+    case KEY_M : return 'M';
+    case KEY_N : return 'N';
+    case KEY_O : return 'O';
+    case KEY_P : return 'P';
+    case KEY_Q : return 'Q';
+    case KEY_R : return 'R';
+    case KEY_S : return 'S';
+    case KEY_T : return 'T';
+    case KEY_U : return 'U';
+    case KEY_V : return 'V';
+    case KEY_W : return 'W';
+    case KEY_X : return 'X';
+    case KEY_Y : return 'Y';
+    case KEY_Z : return 'Z';
+    case KEY_1 : return '1';
+    case KEY_2 : return '2';
+    case KEY_3 : return '3';
+    case KEY_4 : return '4';
+    case KEY_5 : return '5';
+    case KEY_6 : return '6';
+    case KEY_7 : return '7';
+    case KEY_8 : return '8';
+    case KEY_9 : return '9';
+    case KEY_0 : return '0';
+    case KEY_MINUS : return '-';
+    case KEY_EQUAL : return '=';
+    case KEY_SQUARE_OPEN_BRACKET : return '[';
+    case KEY_SQUARE_CLOSE_BRACKET : return ']';
+    case KEY_SEMICOLON : return ';';
+    case KEY_BACKSLASH : return '\\';
+    case KEY_COMMA : return ',';
+    case KEY_DOT : return '.';
+    case KEY_FORESLASH : return '/';
+    case KEY_SPACE : return ' ';
+    case KEY_BACKSPACE : return '1';
+    default : return 0;
+  }
 }
 
 void input() {
@@ -158,8 +193,18 @@ void input() {
     if(keycode == KEY_ENTER){
       newLn();
     } else {
-      out_char(keycode);
+      int key = get_ascii_char(keycode);
+      if (key == 0) {
+        out_char('~');
+        ch++;
+      } else if(key == '1') {
+        rmChar();
+        ch++;
+      } else {
+        out_char(key);
+        ch++;
+      }
     }
-    sleep(0x02FFFFFF);
+    sleep(0x04FFFFFF);
   } while(ch > 0);
 }
