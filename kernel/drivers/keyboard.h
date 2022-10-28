@@ -89,24 +89,77 @@ typedef unsigned int uint32;
 
 #endif
 
-uint8 inb(uint16 port)
-{
+int digit_ascii_codes[10] = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39};
+
+uint8 inb(uint16 port) {
   uint8 ret;
   asm volatile("inb %1, %0" : "=a"(ret) : "d"(port));
   return ret;
 }
 
-void outb(uint16 port, uint8 data)
-{
+void outb(uint16 port, uint8 data) {
   asm volatile("outb %0, %1" : "=a"(data) : "d"(port));
 }
 
-
-char input_keycode() {
+char get_input_keycode() {
   char ch = 0;
   while((ch = inb(KEYBOARD_PORT)) != 0){
     if(ch > 0)
       return ch;
   }
   return ch;
+}
+
+/*
+keep the cpu busy for doing nothing(nop)
+so that io port will not be processed by cpu
+here timer can also be used, but lets do this in looping counter
+*/
+
+void wait_for_io(uint32 timer_count) {
+  while(1){
+    asm volatile("nop");
+    timer_count--;
+    if(timer_count <= 0)
+      break;
+  }
+}
+
+void sleep(uint32 timer_count) {
+  wait_for_io(timer_count);
+}
+
+//TODO: Fix this for qwerty US keyboard
+
+char get_ascii_char(char keycode) {
+  char ascii_char = 0;
+  if(keycode >= 0x02 && keycode <= 0x0B)
+    ascii_char = digit_ascii_codes[keycode - 0x02];
+  else if(keycode >= 0x10 && keycode <= 0x19)
+    ascii_char = keycode;
+  else if(keycode >= 0x1E && keycode <= 0x26)
+    ascii_char = keycode + 0x20;
+  else if(keycode >= 0x2C && keycode <= 0x32)
+    ascii_char = keycode + 0x20;
+  else if(keycode >= 0x33 && keycode <= 0x34)
+    ascii_char = keycode + 0x20;
+  else if(keycode == 0x35)
+    ascii_char = 0x2F;
+  else if(keycode == 0x39)
+    ascii_char = 0x20;
+  return ascii_char;
+}
+
+void input() {
+  char ch = 0;
+  char keycode = 0;
+  do {
+    keycode = get_input_keycode();
+    if(keycode == KEY_ENTER){
+      newLn();
+    } else {
+      out_char(keycode);
+    }
+    sleep(0x02FFFFFF);
+  } while(ch > 0);
 }

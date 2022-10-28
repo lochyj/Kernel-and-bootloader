@@ -1,16 +1,14 @@
 #include "kernel.h"
 #include "drivers/vga.h"
+#include "../lib/io.h"
+#include "drivers/keyboard.h"
 
 // The entry point for our kernel.
-
 void main() {
-    // Init the VGA Driver
-    // (Text colour, Background colour)
-    init_vga_driver(WHITE, BLACK);
+  init_vga_driver(WHITE, BLACK);
 
-    char* string = "Hello, World!";
-
-    for(int i = 0; i < 13; i++) {
-      vga_buffer[i] = vga_driver(string[i], WHITE, BLACK);
-    }
+  printLn("This is not a kernel");
+  printLn("This is the BEST");
+  printT("Username: ");
+  input();
 }
