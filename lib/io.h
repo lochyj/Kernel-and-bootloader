@@ -1,8 +1,5 @@
 #pragma once
 
-<<<<<<< HEAD
-#include "io.c"
-=======
 int strlen(char* str) {
   int len = 0;
   while(str[len]) len++;
@@ -48,8 +45,12 @@ void printLn(char *str) {
   newLn();
 }
 
+void rmChar() {
+  vga_index--;
+  vga_buffer[vga_index] = vga_driver(' ', VGA_TEXT, VGA_BACK);
+}
+
 void clear() {
   vga_index = 0;
   clear_vga_buffer(&vga_buffer, VGA_TEXT, VGA_BACK);
 }
->>>>>>> parent of 628ab6b (Input is working)
