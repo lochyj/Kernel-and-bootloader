@@ -1,8 +1,6 @@
 # Remove the old compiled files
-rm -rf ./out/
-rm -rf ./isodir/
-
-mkdir ./out/
+rm -rf ./out/.
+rm -rf ./isodir/.
 
 
 # Compile the assembly bootloader files
