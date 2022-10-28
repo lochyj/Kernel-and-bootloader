@@ -1,9 +1,10 @@
-# Remove the old compiled files
+# Remove the old output directories and files
 rm -rf ./out/
 rm -rf ./isodir/
 
+# Re-create output directories
 mkdir ./out/
-
+mkdir -p isodir/boot/grub
 
 # Compile the assembly bootloader files
 as --32 ./boot/boot.asm -o ./out/boot.o
@@ -18,9 +19,7 @@ ld -m elf_i386 -T ./boot/linker.ld ./out/kernel.o ./out/boot.o -o ./out/OPS.bin 
 grub-file --is-x86-multiboot ./out/OPS.bin
 
 
-
 # Build the ISO file for running in QEMU
-mkdir -p isodir/boot/grub
 cp ./out/OPS.bin isodir/boot/OPS.bin
 cp ./boot/grub.cfg isodir/boot/grub/grub.cfg
 grub-mkrescue -o ./out/OPS.iso isodir

@@ -11,6 +11,8 @@
 
 ## Running
 
+// TODO: Create a build tool for compiling the kernel
+
 ### Linux
     To run the kernel, you need to have qemu installed. Then run `./run.sh` in the root directory of the project.
 
