@@ -8,7 +8,13 @@ void main() {
   init_vga_driver(WHITE, BLACK);
 
   printLn("Booted into the kernel...");
-  printT("Input test: ");
-  char* uin = input();
-  printLn(uin);
+
+  update_cursor(1, 1);
+
+  while (1){
+    char* uin = inputI("[OPS - ROOT] # ");
+    newLn();
+    printLn(uin);
+    uin = "";
+  }
 }

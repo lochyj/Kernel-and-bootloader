@@ -9,6 +9,9 @@ typedef unsigned int uint32;
 
 #define KEYBOARD_PORT 0x60
 
+#define REG_SCREEN_CTRL 0x3d4
+#define REG_SCREEN_DATA 0x3d5
+
 // update for qwerty us
 
 #define KEY_A 0x1E
@@ -89,6 +92,7 @@ typedef unsigned int uint32;
 #define KEY_SPACE 0x39
 #define KEY_TAB 0x0F
 #define KEY_UP 0x48
+#define KEY_SHIFT 0x2A
 
 //TODO: Update this
 
@@ -183,12 +187,33 @@ void sleep(uint32 timer_count) {
   }
 }
 
+/* TODO: Implement these properly
+int get_cursor_position() {
+  outb(REG_SCREEN_CTRL, 14);
+  int position = inb(REG_SCREEN_DATA) << 8;
+
+  outb(REG_SCREEN_CTRL, 15);
+  position += inb(REG_SCREEN_DATA);
+
+  return position * 2;
+}
+*/
+void update_cursor(int x, int y) {
+	uint16 pos = y * VGA_WIDTH + x;
+ 
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8) ((pos >> 8) & 0xFF));
+}
+
 // TODO: Update this to not use sleep and instead utilize a different system of key cooldown
 char* input() {
 
   char ch = 0;
   int en = 0;
   char keycode = 0;
+  int upper = 0;
 
   char* input = "";
 
@@ -198,24 +223,39 @@ char* input() {
 
     if (keycode == KEY_ENTER) {
       en = 1;
+      ch = 0;
+      input = "";
       return input;
     }
     else {
 
       int key = to_ascii_char(keycode);
 
+      // if the character isn't within our defined set then ignore it
       if (key == 0) {
         out_char(0x00);
         input[ch] = key;
         ch++;
-      } 
+      }
+
+      else if (key == KEY_SHIFT) {
+        upper = 1;
+      }
+
+      // If the key returns a 1 then it is a backspace, remove the previous character; make sure that we only remove characters that the user typed
       else if(key == 1 ) {
         if (ch > 0) {
           rmChar();
           ch--;
         }
-      } 
+      }
+
+      // If the key is a valid character then print it to the screen and add it to the input string
       else {
+        if (upper == 1) {
+          key = key - 32;
+          upper = 0;
+        }
         out_char(key);
         input[ch] = key;
         ch++;
@@ -223,4 +263,10 @@ char* input() {
     }
     sleep(0x100FFFFF);
   } while(en < 1);
+  en = 0;
+}
+
+char* inputI(char* info) {
+  printT(info);
+  return input();
 }
