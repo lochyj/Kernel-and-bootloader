@@ -197,7 +197,7 @@ int get_cursor_position() {
 
   return position * 2;
 }
-*/
+
 void update_cursor(int x, int y) {
 	uint16 pos = y * VGA_WIDTH + x;
  
@@ -206,6 +206,7 @@ void update_cursor(int x, int y) {
 	outb(0x3D4, 0x0E);
 	outb(0x3D5, (uint8) ((pos >> 8) & 0xFF));
 }
+*/
 
 // TODO: Update this to not use sleep and instead utilize a different system of key cooldown
 char* input() {
@@ -213,7 +214,6 @@ char* input() {
   int finished = 0;
   char keycode = 0;
   int upper = 0;
-
   char* in = "";
 
   do {
@@ -242,6 +242,7 @@ char* input() {
       else if(key == 1 ) {
         if (ch > 0) {
           rmChar();
+          in[ch] = 0;
           ch--;
         }
       }
@@ -260,12 +261,14 @@ char* input() {
     sleep(0x09FFFFFF);
   } while(finished < 1);
 
+  in[0] = 0;
   return in;
 }
 
 char* inputI(char* info) {
   printT(info);
-  char* in = input();
+  char* in;
+  in = input();
   newLn();
   return in;
 }

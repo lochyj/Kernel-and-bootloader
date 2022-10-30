@@ -1,5 +1,7 @@
 #pragma once
 
+// TODO: there is something wrong with the print functions that cause the text to be over written on the same line and to not get reset when using the input function
+
 int strlen(char* str) {
   int len = 0;
   while(str[len]) len++;
@@ -16,10 +18,13 @@ int digit_count(int num) {
 }
 
 void out_char(char ch) {
-    vga_buffer[vga_index] = vga_driver(ch, VGA_TEXT, VGA_BACK);
-    vga_index++;
+  vga_buffer[vga_index] = vga_driver(ch, VGA_TEXT, VGA_BACK);
+  vga_index++;
 }
 
+// Line index
+
+// TODO: Fix this | info up top
 void printT(char *str) {
   uint32 index = 0;
   while(str[index]){
@@ -32,7 +37,7 @@ void printT(char *str) {
 static int next_line_index = 1;
 
 void newLn() {
-  if(next_line_index >= 55){
+  if (next_line_index >= 20) {
     next_line_index = 0;
     clear_vga_buffer(&vga_buffer, VGA_TEXT, VGA_BACK);
   }

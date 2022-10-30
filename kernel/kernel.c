@@ -9,9 +9,12 @@ void main() {
 
   printLn("Booted into the kernel...");
 
+  char* info = "[OPS Lochyj - ROOT] # ";
+
   while (1) {
-    char* uin = 0x00;
-    uin = inputI("[OPS Lochyj - ROOT] # ");
+    char* uin = "";
+    printLn(uin);
+    uin = inputI(info);
     printLn(uin);
     uin[0] = 0;
   }
