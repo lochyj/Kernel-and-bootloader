@@ -209,23 +209,19 @@ void update_cursor(int x, int y) {
 
 // TODO: Update this to not use sleep and instead utilize a different system of key cooldown
 char* input() {
-
   char ch = 0;
-  int en = 0;
+  int finished = 0;
   char keycode = 0;
   int upper = 0;
 
-  char* input = "";
+  char* in = "";
 
   do {
 
     keycode = get_input_keycode();
 
     if (keycode == KEY_ENTER) {
-      en = 1;
-      ch = 0;
-      input = "";
-      return input;
+      finished = 1;
     }
     else {
 
@@ -234,7 +230,7 @@ char* input() {
       // if the character isn't within our defined set then ignore it
       if (key == 0) {
         out_char(0x00);
-        input[ch] = key;
+        in[ch] = key;
         ch++;
       }
 
@@ -257,16 +253,19 @@ char* input() {
           upper = 0;
         }
         out_char(key);
-        input[ch] = key;
+        in[ch] = key;
         ch++;
       }
     }
-    sleep(0x100FFFFF);
-  } while(en < 1);
-  en = 0;
+    sleep(0x09FFFFFF);
+  } while(finished < 1);
+
+  return in;
 }
 
 char* inputI(char* info) {
   printT(info);
-  return input();
+  char* in = input();
+  newLn();
+  return in;
 }

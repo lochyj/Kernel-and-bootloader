@@ -28,3 +28,7 @@ We currently dont support running or building on windows or mac. If you want to 
 ## Legal
 
 Some parts of this project were not created by me (Lachlan Jowett) and i do not claim ownership of them.
+
+## TODO
+
+Fix command line input -> output not resetting between inputs

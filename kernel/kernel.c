@@ -1,6 +1,6 @@
 #include "kernel.h"
 #include "drivers/vga.h"
-#include "../include/io.h"
+#include "include/io.h"
 #include "drivers/keyboard.h"
 
 // The entry point for our kernel.
@@ -9,12 +9,11 @@ void main() {
 
   printLn("Booted into the kernel...");
 
-  update_cursor(1, 1);
-
-  while (1){
-    char* uin = inputI("[OPS - ROOT] # ");
-    newLn();
+  while (1) {
+    char* uin = 0x00;
+    uin = inputI("[OPS Lochyj - ROOT] # ");
     printLn(uin);
-    uin = "";
+    uin[0] = 0;
   }
+
 }
