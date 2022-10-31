@@ -215,13 +215,14 @@ char* input() {
 
       int key = to_ascii_char(keycode);
 
-      // if the character isn't within our defined set then ignore it
+      // If the character isn't within our defined set then ignore it
       if (key == 0) {
         out_char(0x00);
         in[ch] = key;
         ch++;
       }
 
+      // If the shift key was pressed then we need to set the upper flag
       else if (key == KEY_SHIFT) {
         upper = 1;
       }

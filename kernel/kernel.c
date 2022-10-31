@@ -10,19 +10,14 @@ void main() {
 
   printLn("Booted into the kernel...");
 
-  char* info = "[OPS Lochyj - ROOT] # ";
-
-  int val = 0;
-  val  = CMOS_READ(0);
-
+  int val;
+  val = CMOS_READ(0);
   printI(val);
 
-  // while (1) {
-  //   char* uin = "";
-  //   printLn(uin);
-  //   uin = inputI(info);
-  //   printLn(uin);
-  //   uin[0] = 0;
-  // }
+  sleep(0x00FFFFFF);
+
+  val = CMOS_READ(1);
+  newLn();
+  printI(val);
 
 }

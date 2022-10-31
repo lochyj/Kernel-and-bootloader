@@ -33,29 +33,37 @@ void printT(char *str) {
   }
 }
 
-void itoa(int num, char *number) {
-  int dgcount = digit_count(num);
-  int index = dgcount - 1;
-  char x;
-  if (num == 0 && dgcount == 1) {
-    number[0] = '0';
-    number[1] = '\0';
-  } else{
-    while (num != 0) {
-      x = num % 10;
-      number[index] = x + '0';
-      index--;
-      num = num / 10;
-    }
-    number[dgcount] = '\0';
+char* reverse(char* str) {
+  int len = strlen(str);
+  char* rev = "";
+  for(int i = 0; i < len; i++) {
+    rev[i] = str[len - i - 1];
   }
+  return rev;
 }
 
-void printI(int num) {
-  char str_num[digit_count(num)+1];
-  itoa(num, str_num);
-  printT(str_num);
+char* itoa(int n, char s[]) {
+  int i, sign;
+  if ((sign = n) < 0)  /* record sign */
+      n = -n;          /* make n positive */
+  i = 0;
+  do {       /* generate digits in reverse order */
+      s[i++] = n % 10 + '0';   /* get next digit */
+  } while ((n /= 10) > 0);     /* delete it */
+  if (sign < 0) s[i++] = '-';
+  s[i] = '\0';
+  reverse(s);
+  return s;
 }
+
+
+void printI(int num) {
+  char str_num = 10;
+  char* int_str = itoa(num, str_num);
+  printT(int_str);
+}
+
+
 
 // New line index that stores the number of new lines generated
 static int next_line_index = 1;
