@@ -24,11 +24,12 @@ We currently dont support running or building on windows or mac. If you want to 
 - [Lachlan Jowett](https://github.com/lochyj)
 - [Pritam Zope](https://www.codeproject.com/Articles/1225196/Create-Your-Own-Kernel-In-C-2)
 - [Carlos Fenollosa](https://github.com/cfenollosa/os-tutorial)
+- [OS Dev Wiki](https://wiki.osdev.org/Main_Page)
 
 ## Legal
 
 Some parts of this project were not created by me (Lachlan Jowett) and i do not claim ownership of them.
 
-## TODO
+## TODOs
 
 Fix command line input -> output not resetting between inputs

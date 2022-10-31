@@ -33,6 +33,30 @@ void printT(char *str) {
   }
 }
 
+void itoa(int num, char *number) {
+  int dgcount = digit_count(num);
+  int index = dgcount - 1;
+  char x;
+  if (num == 0 && dgcount == 1) {
+    number[0] = '0';
+    number[1] = '\0';
+  } else{
+    while (num != 0) {
+      x = num % 10;
+      number[index] = x + '0';
+      index--;
+      num = num / 10;
+    }
+    number[dgcount] = '\0';
+  }
+}
+
+void printI(int num) {
+  char str_num[digit_count(num)+1];
+  itoa(num, str_num);
+  printT(str_num);
+}
+
 // New line index that stores the number of new lines generated
 static int next_line_index = 1;
 

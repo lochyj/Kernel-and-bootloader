@@ -1,6 +1,7 @@
 #pragma once
 
-#ifndef KEYBOARD_H
+#include "ports.h"
+
 #define KEYBOARD_H
 
 typedef unsigned char uint8;
@@ -11,8 +12,6 @@ typedef unsigned int uint32;
 
 #define REG_SCREEN_CTRL 0x3d4
 #define REG_SCREEN_DATA 0x3d5
-
-// update for qwerty us
 
 #define KEY_A 0x1E
 #define KEY_B 0x30
@@ -58,7 +57,7 @@ typedef unsigned int uint32;
 #define KEY_BACKSLASH 0x2B
 #define KEY_COMMA 0x33
 #define KEY_DOT 0x34
-#define KEY_FORESLASH 0x35
+#define KEY_SLASH 0x35
 #define KEY_F1 0x3B
 #define KEY_F2 0x3C
 #define KEY_F3 0x3D
@@ -94,7 +93,7 @@ typedef unsigned int uint32;
 #define KEY_UP 0x48
 #define KEY_SHIFT 0x2A
 
-//TODO: Update this
+//TODO: Upgrade this
 
 char to_ascii_char(uint8 key_code) {
   switch(key_code) {
@@ -142,26 +141,15 @@ char to_ascii_char(uint8 key_code) {
     case KEY_BACKSLASH : return '\\';
     case KEY_COMMA : return ',';
     case KEY_DOT : return '.';
-    case KEY_FORESLASH : return '/';
+    case KEY_SLASH : return '/';
     case KEY_SPACE : return ' ';
     case KEY_BACKSPACE : return 1;
     default : return 0;
   }
 }
 
-#endif
 
 int digit_ascii_codes[10] = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39};
-
-uint8 inb(uint16 port) {
-  uint8 ret;
-  asm volatile("inb %1, %0" : "=a"(ret) : "d"(port));
-  return ret;
-}
-
-void outb(uint16 port, uint8 data) {
-  asm volatile("outb %0, %1" : "=a"(data) : "d"(port));
-}
 
 char get_input_keycode() {
   char ch = 0;
