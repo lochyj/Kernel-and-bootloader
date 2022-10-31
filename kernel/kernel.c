@@ -10,14 +10,8 @@ void main() {
 
   printLn("Booted into the kernel...");
 
-  int val;
-  val = CMOS_READ(0);
-  printI(val);
-
-  sleep(0x00FFFFFF);
-
-  val = CMOS_READ(1);
-  newLn();
-  printI(val);
+  continueKey("P");
+ 
+  printI(100);
 
 }
