@@ -46,16 +46,27 @@ void printT(char *str) {
 * @return char* reversed string
 */
 
-char* reverse(char * string) {
-  int len = strlen(string);
-  char* rev;
-  int i = 0;
-  for(int j = len - 1; j >= 0; j--) {
-    rev[i] = string[j];
-    i++;
+char* reverse(char** str) {
+  char* temp = str;
+  int n = strlen(temp);
+
+  for (int i = 0; i < n / 2; i++) {
+    char ch = str[i];
+    str[i] = str[n - i - 1];
+    str[n - i - 1] = ch;
   }
-  return rev;
 }
+
+// char* reverse(char * string) {
+//   int len = strlen(string);
+//   char* rev;
+//   int i = 0;
+//   for(int j = len - 1; j >= 0; j--) {
+//     rev[i] = string[j];
+//     i++;
+//   }
+//   return rev;
+// }
 
 /**
 * Converts an integer to a string and returns it
@@ -73,8 +84,8 @@ char* itoa(int n, char s[]) {
   } while ((n /= 10) > 0);    /* delete it */
   if (sign < 0) s[i++] = '-';
   s[i] = '\0';
-  //char* rev = reverse(s);
-  return s;
+  char* rev = reverse(&s);
+  return rev;
 }
 
 /**
@@ -119,11 +130,11 @@ void clear() {
   clear_vga_buffer(&vga_buffer, VGA_TEXT, VGA_BACK);
 }
 
-void continueKey(char key) {
-  printT("Press '"); printT(key); printT("' to continue..."); newLn();
+void pause() {
+  printLn("Press 'Enter' to continue...");
   int keycode;
   do {
     keycode = get_input_keycode();
     sleep(0x09FFFFFF);
-  } while(keycode != key);
+  } while(keycode != 0x1C);
 }

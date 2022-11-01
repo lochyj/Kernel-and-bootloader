@@ -21,6 +21,7 @@
 We currently dont support running or building on windows or mac. If you want to run it on windows or mac, you can use a virtual machine for Mac and Windows or WSL for Windows.
 
 ## Credits
+
 - [Lachlan Jowett](https://github.com/lochyj)
 - [Pritam Zope](https://www.codeproject.com/Articles/1225196/Create-Your-Own-Kernel-In-C-2)
 - [Carlos Fenollosa](https://github.com/cfenollosa/os-tutorial)

@@ -10,7 +10,7 @@ void main() {
 
   printLn("Booted into the kernel...");
 
-  continueKey("P");
+  pause();
  
   printI(100);
 
