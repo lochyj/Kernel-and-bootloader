@@ -1,34 +1,41 @@
-.set Magic, 0x1BADB002
+; Declare constants for the multiboot header.
+MBALIGN  equ  1 << 0            ; align loaded modules on page boundaries
+MEMINFO  equ  1 << 1            ; provide memory map
+FLAGS    equ  MBALIGN | MEMINFO ; this is the Multiboot 'flag' field
+MAGIC    equ  0x1BADB002        ; 'magic number' lets bootloader find the header
+CHECKSUM equ -(MAGIC + FLAGS)   ; checksum of above, to prove we are multiboot
 
-.set Flags, 0
+section .multiboot
+align 4
+	dd MAGIC
+	dd FLAGS
+	dd CHECKSUM
+ 
+section .bss
+align 16
+stack_bottom:
 
-.set Checksum, -(Magic + Flags)
+resb 16384 ; 16 KiB
 
-# Enable Multiboot
-.section .multiboot
-
-.long Magic
-.long Flags
-.long Checksum
-
-stackBottom:
-    .skip 1024
-
-stackTop:
-    .section .text
-    .global _start
-    .type _start, @function
+stack_top:
+section .text
+global _start:function (_start.end - _start)
 
 _start:
-    # Set up the stack
-    mov $stackTop, %esp
+    ; mov ax,mode ; here select which mode you want ; Not working rn
+    ; int 16      ; this calls EGA/VGA/VESA BIOS
 
-    call main
+	mov esp, stack_top
 
-    cli
+    
 
-hltLoop:
+	extern main
+	call main
+
+	cli
+
+.hang:	
     hlt
-    jmp hltLoop
+	jmp .hang
 
-.size _start, . - _start
+.end:
