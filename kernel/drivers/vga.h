@@ -41,31 +41,53 @@ enum vga_colour {
 
 #endif
 
-uint16 vga_driver(unsigned char ch, uint8 fore_color, uint8 back_color)  {
-  uint16 ax = 0;
-  uint8 ah = 0, al = 0;
+// uint16 vga_driver(unsigned char ch, uint8 fore_color, uint8 back_color)  {
+//   uint16 ax = 0;
+//   uint8 ah = 0, al = 0;
 
-  ah = back_color;
-  ah <<= 4;
-  ah |= fore_color;
-  ax = ah;
-  ax <<= 8;
-  al = ch;
-  ax |= al;
+//   ah = back_color;
+//   ah <<= 4;
+//   ah |= fore_color;
+//   ax = ah;
+//   ax <<= 8;
+//   al = ch;
+//   ax |= al;
 
-  return ax;
+//   return ax;
+// }
+
+
+//----
+
+#define VGA_CTRL_REGISTER 0x3d4
+#define VGA_DATA_REGISTER 0x3d5
+#define VGA_OFFSET_LOW 0x0f
+#define VGA_OFFSET_HIGH 0x0e
+
+void set_cursor(int offset) {
+    offset /= 2;
+    outb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
+    outb(VGA_DATA_REGISTER, (unsigned char) (offset >> 8));
+    outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
+    outb(VGA_DATA_REGISTER, (unsigned char) (offset & 0xff));
 }
 
-//clear video buffer array
-void clear_vga_buffer(uint16 **buffer, uint8 fore_color, uint8 back_color) {
-  uint32 i;
-  for(i = 0; i < BUFSIZE; i++){
-    (*buffer)[i] = vga_driver(NULL, fore_color, back_color);
-  }
+int get_cursor() {
+    outb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
+    int offset = inb(VGA_DATA_REGISTER) << 8;
+    outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
+    offset += inb(VGA_DATA_REGISTER);
+    return offset * 2;
 }
 
-//initialize vga buffer
-void init_vga_driver(uint8 fore_color, uint8 back_color) {
-  vga_buffer = (uint16*)VGA_ADDRESS;  //point vga_buffer pointer to VGA_ADDRESS 
-  clear_vga_buffer(&vga_buffer, fore_color, back_color);  //clear buffer
+
+#define VIDEO_ADDRESS 0xb8000
+#define MAX_ROWS 25
+#define MAX_COLS 80
+#define WHITE_ON_BLACK 0x0f
+
+void set_char_at_video_memory(char character, int offset) {
+    unsigned char *vidmem = (unsigned char *) VIDEO_ADDRESS;
+    vidmem[offset] = character;
+    vidmem[offset + 1] = WHITE_ON_BLACK;
 }

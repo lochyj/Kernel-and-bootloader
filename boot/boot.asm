@@ -22,8 +22,6 @@ section .text
 global _start:function (_start.end - _start)
 
 _start:
-    ; mov ax,mode ; here select which mode you want ; Not working rn
-    ; int 16      ; this calls EGA/VGA/VESA BIOS
 
 	mov esp, stack_top
 
