@@ -1,15 +1,11 @@
 #pragma once
 
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned int uint32;
-
-uint8 inb(uint16 port) {
-  uint8 ret;
-  asm volatile("inb %1, %0" : "=a"(ret) : "d"(port));
-  return ret;
+unsigned char inb(unsigned short port) {
+    unsigned char result;
+    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
+    return result;
 }
 
-void outb(uint16 port, uint8 data) {
-  asm volatile("outb %0, %1" : "=a"(data) : "d"(port));
+void outb(unsigned short port, unsigned char data) {
+    __asm__("out %%al, %%dx" : : "a" (data), "d" (port));
 }

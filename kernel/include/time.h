@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "../drivers/ports.h"
+#include "../drivers/ports.h"
 
 #define CMOS_READ(addr) ({ \
   outb_p(0x80|addr,0x70); \

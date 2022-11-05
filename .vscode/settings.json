@@ -1,4 +1,8 @@
 {
     "C_Cpp.errorSquiggles": "Disabled",
-    "prettier.endOfLine": "lf"
+    "prettier.endOfLine": "lf",
+    "files.associations": {
+        "*.ejs": "html",
+        "io.h": "c"
+    }
 }

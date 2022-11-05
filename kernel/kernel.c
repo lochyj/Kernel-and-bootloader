@@ -6,12 +6,9 @@
 
 // The entry point for our kernel.
 void main() {
-  init_vga_driver(WHITE, BLACK);
 
-  printLn("Booted into the kernel...");
-
-  pause();
- 
-  printI(100);
+  clear();
+  
+  print("Hello World!\n");
 
 }
