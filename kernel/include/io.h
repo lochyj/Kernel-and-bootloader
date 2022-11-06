@@ -1,18 +1,7 @@
 #pragma once
 
-// #include "../drivers/keyboard.h"
-
-
-
-unsigned char inb(unsigned short port) {
-    unsigned char result;
-    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
-    return result;
-}
-
-void outb(unsigned short port, unsigned char data) {
-    __asm__("out %%al, %%dx" : : "a" (data), "d" (port));
-}
+#define MAX_ROWS 25
+#define MAX_COLS 80
 
 int strlen(char* str) {
   int len = 0;
@@ -38,7 +27,7 @@ int getOffset(int col, int row) {
 }
 
 int moveToNewLine(int offset) {
-  return get_offset(0, getRow(offset) + 1);
+  return getOffset(0, getRow(offset) + 1);
 }
 
 void memCpy(char *source, char *dest, int nbytes) {
@@ -89,18 +78,18 @@ void clear() {
 
 // TODO: Improve this soon
 
-char* reverse(char** str) {
-  char* temp = str;
-  int n = strlen(temp);
+char* reverse(char* str) {
+  int n = strlen(str);
 
   for (int i = 0; i < n / 2; i++) {
     char ch = str[i];
     str[i] = str[n - i - 1];
     str[n - i - 1] = ch;
   }
+  return str;
 }
 
-char* itoa(int n, char s[]) {
+char* itoa(int n, char* s) {
   int i, sign;
   if ((sign = n) < 0)  /* record sign */
     n = -n;           /* make n positive */
@@ -110,7 +99,7 @@ char* itoa(int n, char s[]) {
   } while ((n /= 10) > 0);    /* delete it */
   if (sign < 0) s[i++] = '-';
   s[i] = '\0';
-  char* rev = reverse(&s);
+  char* rev = reverse(s);
   return rev;
 }
 

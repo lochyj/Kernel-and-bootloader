@@ -1,7 +1,5 @@
 #pragma once
 
-#include "./ports.h"
-
 #define VGA_H
 
 typedef unsigned char uint8;
@@ -37,19 +35,30 @@ enum vga_colour {
 #define MAX_COLS 80
 #define COLOURS 0x0f
 
+unsigned char VGAinb(unsigned short port) {
+    unsigned char result;
+    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
+    return result;
+}
+
+void VGAoutb(unsigned short port, unsigned char data) {
+    __asm__("out %%al, %%dx" : : "a" (data), "d" (port));
+}
+
+
 void setVGACursor(int offset) {
   offset /= 2;
-  outb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-  outb(VGA_DATA_REGISTER, (uint16) (offset >> 8));
-  outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-  outb(VGA_DATA_REGISTER, (uint16) (offset & 0xff));
+  VGAoutb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
+  VGAoutb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
+  VGAoutb(VGA_DATA_REGISTER, (uint16) (offset & 0xff));
+  VGAoutb(VGA_DATA_REGISTER, (uint16) (offset >> 8));
 }
 
 int getVGACursor() {
-  outb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-  int offset = inb(VGA_DATA_REGISTER) << 8;
-  outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-  offset += inb(VGA_DATA_REGISTER);
+  VGAoutb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
+  int offset = VGAinb(VGA_DATA_REGISTER) << 8;
+  VGAoutb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
+  offset += VGAinb(VGA_DATA_REGISTER);
   return offset * 2;
 }
 
