@@ -1,5 +1,7 @@
 SHELL := /bin/bash
 
+all: run
+
 clean:
 	rm -rf ./out/
 	rm -rf ./isodir/
@@ -16,10 +18,11 @@ clean:
 %.o: %.cpp
 	g++ -m32 -c $@ -o ./out/$< -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
-link:
+link: clean
 	ld -m elf_i386 -T ./include/linker.ld ./out/*.o ./out/OPS.bin -nostdlib
 
-build:
+build: link
+	
 	grub-file --is-x86-multiboot ./out/OPS.bin
 
 	cp ./out/OPS.bin isodir/boot/OPS.bin
@@ -27,5 +30,5 @@ build:
 
 	grub-mkrescue -o ./out/OPS.iso isodir
 
-run:
+run: build
 	qemu-system-x86_64 -cdrom ./out/OPS.iso
