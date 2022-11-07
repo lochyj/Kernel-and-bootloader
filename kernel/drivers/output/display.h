@@ -59,4 +59,20 @@ void outCharAtLocation(char character, int offset) {
   videomemory[offset + 1] = COLOURS;
 }
 
+#define MASK 0x3C6
+#define READ 0xC7
+#define WRITE 0xC8
+#define DATA 0xC9
+
+void initScreen() {
+  outb(MASK, 0xFF);
+  outb(WRITE, 0);
+  for (int i = 0; i < 255; i++) {
+    outb(DATA, (((i>>5)&7)<<5) | (((i>>2)&7)<<2) | ((i&3)<<0));
+  }
+  outb(DATA, 0x3F);
+  outb(DATA, 0x3F);
+  outb(DATA, 0x3F);
+}
+
 #endif
