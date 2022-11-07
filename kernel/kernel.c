@@ -5,6 +5,9 @@
 // The entry point for our kernel.
 void main() {
 
-  initScreen();
+  
+  enableVGACursor();
+
+  print("Hello, World!\nADDDOF");
 
 }
