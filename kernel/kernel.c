@@ -1,13 +1,15 @@
-#include "kernel.h"
-#include "drivers/vga.h"
-#include "include/io.h"
+#include "include/types.h"
+#include "drivers/output/io.h"
+#include "drivers/input/cpu.h"
 
 // The entry point for our kernel.
 void main() {
 
   clear();
-  
-  print("Hello World!\n");
-  intOut(1000);
+  enableVGACursor();
+
+  print("PLEASE WORK | 16\n");
+  sleep(0x00FFFFFF);
+  intOut(getVGACursor());
 
 }
