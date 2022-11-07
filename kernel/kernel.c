@@ -5,9 +5,7 @@
 // The entry point for our kernel.
 void main() {
 
-  
-  enableVGACursor();
-
-  print("Hello, World!\nADDDOF");
+  char* video_memory = (char*) 0xb8000;
+    *video_memory = 'X';
 
 }
