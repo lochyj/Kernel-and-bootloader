@@ -17,12 +17,12 @@ nasm ./boot/mbr.asm -f bin -o ./out/mbr.o
 echo "-------- C compiler --------"
 
 # Complile the kernel C files
-gcc -m32 -ffreestanding -fno-pic -c ./kernel/kernel.c -o ./out/kernel.o
+gcc -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c ./kernel/kernel.c -o ./out/kernel.o
 
 echo "-------- linker --------"
 
 # Link the kernel with kernel.o and the boot files
-ld -m elf_i386 -T ./include/linker.ld ./out/kernel.o ./out/boot.o -o ./out/binaries.bin -nostdlib --oformat binary -Ttext 0x1000
+ld -m elf_i386 ./out/kernel.o ./out/boot.o -o ./out/binaries.bin -nostdlib --oformat binary -Ttext 0x1000
 cat ./out/mbr.o ./out/binaries.bin > ./out/Image.bin
 
 echo "-------- qemu run --------"
