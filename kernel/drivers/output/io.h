@@ -72,6 +72,20 @@ void print(char *string) {
   setVGACursor(offset);
 }
 
+void outChar(char ch) {
+  int offset = getVGACursor();
+  if (offset >= MAX_ROWS * MAX_COLS * 2) {
+    offset = scrollLn(offset);
+  }
+  if (ch == '\n') {
+    offset = moveToNewLine(offset);
+  } else {
+    outCharAtLocation(ch, offset);
+    offset += 2;
+  }
+  setVGACursor(offset);
+}
+
 void rmChar() {
   int offset = getVGACursor();
   offset -= 2;

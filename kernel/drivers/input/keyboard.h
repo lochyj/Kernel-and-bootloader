@@ -201,7 +201,7 @@ char* input() {
 
       // If the character isn't within our defined set then ignore it
       if (key == 0) {
-        print(0x00);
+        outChar(0x00);
         in[ch] = key;
         ch++;
       }
@@ -215,7 +215,6 @@ char* input() {
       else if(key == 1 ) {
         if (ch > 0) {
           rmChar();
-          in[ch] = 0;
           ch--;
         }
       }
@@ -226,7 +225,7 @@ char* input() {
           key = key - 32;
           upper = 0;
         }
-        print(key);
+        outChar(key);
         in[ch] = key;
         ch++;
       }
@@ -239,9 +238,9 @@ char* input() {
 }
 
 char* inputI(char* info) {
-  printT(info);
+  print(info);
   char* in;
   in = input();
-  newLn();
+  print("\n");
   return in;
 }

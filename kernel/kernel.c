@@ -11,8 +11,7 @@ void main() {
   print("Number 1\n");
   print("Number 2");
 
-  char* in = inputI("> ");
-  print("\n");
+  char* in = input();
   print(in);
 
 
