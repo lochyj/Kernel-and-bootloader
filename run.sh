@@ -18,7 +18,7 @@ nasm -felf32 ./boot/boot.asm -o ./out/boot.o
 echo "-------- C compiler --------"
 
 # Complile the kernel C files
-gcc -m32 -c ./kernel/kernel.c -o ./out/kernel.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+gcc -m32 -c ./kernel/kernel.c -o ./out/kernel.o -std=gnu99 -ffreestanding -O2
 
 echo "-------- linker --------"
 

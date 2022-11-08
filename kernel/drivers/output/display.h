@@ -33,40 +33,25 @@ enum vga_colour {
 #define COLOURS 0x0f
 
 
+u32 offset = 0;
 
-void setVGACursor(int offset) {
-  offset /= 2;
-  outb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-  outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-  outb(VGA_DATA_REGISTER, (u16) (offset & 0xff));
-  outb(VGA_DATA_REGISTER, (u16) (offset >> 8));
+
+
+void setVGACursor(int offset2) {
+  offset += offset2;
 }
 
-u16 getVGACursor() {
-    u16 pos = 0;
-    outb(0x3D4, 0x0F);
-    pos |= inb(0x3D5);
-    outb(0x3D4, 0x0E);
-    pos |= ((u16)inb(0x3D5)) << 8;
-    return pos;
+u32 getVGACursor() {
+  return offset;
 }
 
 void enableVGACursor() {
-    outb(0x3D4, 0x0A);
-    char curstart = inb(0x3D5) & 0x1F; // get cursor scanline start
+  outb(0x3D4, 0x0A);
+  char curstart = inb(0x3D5) & 0x1F;
 
-    outb(0x3D4, 0x0A);
-    outb(0x3D5, curstart | 0x20); // set enable bit
+  outb(0x3D4, 0x0A);
+  outb(0x3D5, curstart | 0x20);
 }
-
-// Old code
-// int getVGACursor() {
-//   outb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-//   int offset = inb(VGA_DATA_REGISTER) << 8;
-//   outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-//   offset += inb(VGA_DATA_REGISTER);
-//   return offset * 2;
-// }
 
 void outCharAtLocation(char character, int offset) {
   unsigned char *videomemory = (unsigned char *) VIDEO_ADDRESS;

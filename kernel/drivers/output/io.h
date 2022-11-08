@@ -54,10 +54,6 @@ int scrollLn(int offset) {
   return offset - 2 * MAX_COLS;
 }
 
-void printf(char* string, ...) {
-  // TODO: Implement
-}
-
 void print(char *string) {
   int offset = getVGACursor();
   int i = 0;
@@ -73,6 +69,13 @@ void print(char *string) {
     }
     i++;
   }
+  setVGACursor(offset);
+}
+
+void rmChar() {
+  int offset = getVGACursor();
+  offset -= 2;
+  outCharAtLocation(' ', offset);
   setVGACursor(offset);
 }
 
