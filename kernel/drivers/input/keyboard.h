@@ -159,27 +159,6 @@ char get_input_keycode() {
   return ch;
 }
 
-/* TODO: Implement these properly
-int get_cursor_position() {
-  outb(REG_SCREEN_CTRL, 14);
-  int position = inb(REG_SCREEN_DATA) << 8;
-
-  outb(REG_SCREEN_CTRL, 15);
-  position += inb(REG_SCREEN_DATA);
-
-  return position * 2;
-}
-
-void update_cursor(int x, int y) {
-	u16 pos = y * VGA_WIDTH + x;
- 
-	outb(0x3D4, 0x0F);
-	outb(0x3D5, (u8) (pos & 0xFF));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (u8) ((pos >> 8) & 0xFF));
-}
-*/
-
 // TODO: Update this to not use sleep and instead utilize a different system of key cooldown
 char* input() {
   char ch = 0;
