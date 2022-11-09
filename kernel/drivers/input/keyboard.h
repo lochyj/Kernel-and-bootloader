@@ -150,7 +150,7 @@ char to_ascii_char(u8 key_code) {
 
 int digit_ascii_codes[10] = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39};
 
-char get_input_keycode() {
+char get_input() {
   char ch = 0;
   while((ch = inb(KEYBOARD_PORT)) != 0){
     if(ch > 0)
@@ -169,7 +169,7 @@ char* input() {
 
   do {
 
-    keycode = get_input_keycode();
+    keycode = get_input();
 
     if (keycode == KEY_ENTER) {
       finished = 1;
@@ -218,7 +218,7 @@ char* input() {
 
 char* inputI(char* info) {
   print(info);
-  char* in;
+  char* in = "";
   in = input();
   print("\n");
   return in;

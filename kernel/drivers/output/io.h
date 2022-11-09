@@ -61,7 +61,7 @@ void print(char *string) {
     if (offset >= MAX_ROWS * MAX_COLS * 2) {
       offset = scrollLn(offset);
     }
-    if (string[i] == '\n') {
+    if (string[i] == '\n' || string[i] == '\r') {
       offset = moveToNewLine(offset);
     } else {
       outCharAtLocation(string[i], offset);
