@@ -17,7 +17,7 @@ nasm ./boot/mbr.asm -f bin -o ./out/mbr.o
 echo "-------- C compiler --------"
 
 # Complile the kernel C files
-gcc -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c ./kernel/kernel.c -o ./out/kernel.o
+gcc -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -fno-pie -c ./kernel/kernel.c -o ./out/kernel.o
 
 echo "-------- linker --------"
 
