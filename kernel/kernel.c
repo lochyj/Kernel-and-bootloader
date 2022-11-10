@@ -8,19 +8,14 @@ void main() {
 
   clear();
 
-  print("Number 1\n");
-  print("Number 2\n");
+  u32 loc = getVGACursor();
 
-  u16 time = CMOS_READ(0x00);
+  intOut(loc);
 
-  do {
-    time = CMOS_READ(0x00);
-    intOut(time);
-    print("\n");
-    sleep(0x09FFFFFF);
-  } while (1);
+  print("Booted into the kernel successfully!\n");
 
-  char* in = input();
-  print(in);
+  loc = getVGACursor();
+
+  intOut(loc);
 
 }

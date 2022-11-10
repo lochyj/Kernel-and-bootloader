@@ -25,8 +25,6 @@ _start:
 
 	mov esp, stack_top
 
-    
-
 	extern main
 	call main
 
